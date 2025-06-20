@@ -1,0 +1,20 @@
+# Python
+__pycache__/
+*.py[cod]
+*.env
+.env
+crypt.env
+requirements.txt
+
+# Flask
+instance/
+*.db
+
+# IDE/Editor
+.vscode/
+.idea/
+*.swp
+
+# OS
+.DS_Store
+Thumbs.db

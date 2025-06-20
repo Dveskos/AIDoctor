@@ -1,0 +1,100 @@
+body {
+    background-image: url('../image/Background.png');
+    background-color: #b80f0f;
+    color: #000000;
+}
+
+.navbar1{
+    color: #000000;
+    font-size: 2em;
+    font-weight: bold;
+    text-decoration: none;
+    transition: color 0.3s ease;  
+}
+.navbar1:hover {
+    color: #ffffff;
+    text-decoration: none;
+    transition: color 0.3s ease;
+}
+
+.welcome {
+
+    font-size: 1.5em;
+    margin-top: 5%;
+    margin-left: 10%;
+}
+
+.forming {
+    margin-top: 5%;
+    margin-left: 5%;
+    font-size: 1.2em;
+}
+
+.des {
+    width: 30%;
+    margin-left: 5%;
+    text-shadow: 1px 1px 4px #ffffff;
+}
+
+.ans {
+    width: 95%;
+    margin-left: 1%;
+    font-size: 1em;
+    border-style: solid;
+    background-color: azure;
+    padding: 0.5%;
+    text-shadow: 1px 1px 4px #ffffff;
+}
+
+@keyframes fadeInUp {
+    0% {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+    100% {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.animated-text {
+    animation: fadeInUp 3s ease forwards;
+    opacity: 0;
+}
+
+.loader {
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    position: relative;
+    animation: rotate 1s linear infinite;
+  }
+  .loader::before , .loader::after {
+    content: "";
+    box-sizing: border-box;
+    position: absolute;
+    inset: 0px;
+    border-radius: 50%;
+    border: 5px solid #FFF;
+    animation: prixClipFix 2s linear infinite ;
+  }
+  .loader::after{
+    border-color: #FF3D00;
+    animation: prixClipFix 2s linear infinite , rotate 0.5s linear infinite reverse;
+    inset: 6px;
+  }
+
+  @keyframes rotate {
+    0%   {transform: rotate(0deg)}
+    100%   {transform: rotate(360deg)}
+  }
+
+  @keyframes prixClipFix {
+      0%   {clip-path:polygon(50% 50%,0 0,0 0,0 0,0 0,0 0)}
+      25%  {clip-path:polygon(50% 50%,0 0,100% 0,100% 0,100% 0,100% 0)}
+      50%  {clip-path:polygon(50% 50%,0 0,100% 0,100% 100%,100% 100%,100% 100%)}
+      75%  {clip-path:polygon(50% 50%,0 0,100% 0,100% 100%,0 100%,0 100%)}
+      100% {clip-path:polygon(50% 50%,0 0,100% 0,100% 100%,0 100%,0 0)}
+  }
+
+  

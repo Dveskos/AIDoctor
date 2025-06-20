@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="el">
+<head>
+    <meta charset="UTF-8">
+    <title>Απάντηση | AI Γιατρός</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/home.css') }}">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/css/bootstrap.min.css">
+    <style>
+    .alert-info {
+        white-space: pre-line;
+        word-break: break-word;
+    }
+    </style>
+</head>
+<body>
+<div class="container mt-5" style="max-width:700px;">
+    <h2 class="mb-4">Απάντηση AI Γιατρού</h2>
+    <div class="alert alert-info fs-5">{{ answer }}</div>
+    <div class="mt-4">
+        <a href="{{ url_for('dashboard') }}" class="btn btn-primary">Επιστροφή στον πίνακα</a>
+    </div>
+</div>
+</body>
+</html>

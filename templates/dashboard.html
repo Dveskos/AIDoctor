@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="el">
+<head>
+    <meta charset="UTF-8">
+    <title>Dashboard | AI Γιατρός</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/home.css') }}">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/css/bootstrap.min.css">
+    <style>
+        .question-actions { min-width: 110px; text-align: right; }
+    </style>
+</head>
+<body>
+<div class="container mt-4">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h2>Καλώς ήρθες, {{ email }}!</h2>
+        <div>
+            <form method="post" action="{{ url_for('delete_account') }}" style="display: inline;">
+                <button type="submit" class="btn btn-outline-danger btn-sm"
+                    onclick="return confirm('Είσαι σίγουρος ότι θέλεις να διαγράψεις τον λογαριασμό σου; Αυτή η ενέργεια δεν αναιρείται!');">
+                    Διαγραφή Λογαριασμού
+                </button>
+            </form>
+            <a href="{{ url_for('logout') }}" class="btn btn-danger btn-sm ms-2">Αποσύνδεση</a>
+        </div>
+    </div>
+
+    <div class="mb-3">
+        {% if credits == 'unlimited' and unlimited_expiry %}
+            <span class="badge bg-info fs-5">
+                Απεριόριστα credits έως {{ unlimited_expiry.strftime('%d/%m/%Y') }}
+            </span>
+        {% else %}
+            <span class="badge bg-primary fs-5">
+                Credits: {{ credits }}
+            </span>
+        {% endif %}
+        <button class="btn btn-success ms-3" data-bs-toggle="modal" data-bs-target="#buyCreditsModal">Αγορά Credits</button>
+    </div>
+    {% if error %}<div class="alert alert-danger">{{ error }}</div>{% endif %}
+
+    <form method="post" action="{{ url_for('ask') }}">
+        <div class="mb-3">
+            <label for="question_text" class="form-label">Ερώτηση Υγείας:</label>
+            <input type="text" class="form-control" name="question_text" id="question_text" required>
+        </div>
+        <button type="submit" class="btn btn-primary">Ρώτησε τον AI Γιατρό</button>
+    </form>
+    <hr>
+    <div class="d-flex justify-content-between align-items-center">
+        <h4 class="mb-0">Ιστορικό Ερωτήσεων</h4>
+        {% if questions %}
+        <form method="post" action="{{ url_for('delete_all_questions') }}">
+            <button type="submit" class="btn btn-danger btn-sm"
+                onclick="return confirm('Διαγραφή όλου του ιστορικού;');">Διαγραφή Όλων</button>
+        </form>
+        {% endif %}
+    </div>
+    <ul class="list-group mt-3">
+        {% for q in questions %}
+        <li class="list-group-item d-flex justify-content-between align-items-start">
+            <div>
+                <strong>Ερώτηση:</strong> {{ q[2] }}<br>
+                <strong>Απάντηση:</strong> {{ q[3] or '---' }}<br>
+                <span class="text-muted">{{ q[4] }}</span>
+            </div>
+            <div class="question-actions">
+                <form method="post" action="{{ url_for('delete_question', question_id=q[0]) }}">
+                    <button type="submit" class="btn btn-outline-danger btn-sm"
+                        onclick="return confirm('Διαγραφή ερώτησης;');">Διαγραφή</button>
+                </form>
+            </div>
+        </li>
+        {% else %}
+        <li class="list-group-item">Δεν υπάρχουν ερωτήσεις ακόμα.</li>
+        {% endfor %}
+    </ul>
+</div>
+
+<!-- Modal για αγορά credits -->
+<div class="modal fade" id="buyCreditsModal" tabindex="-1" aria-labelledby="buyCreditsModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="buyCreditsModalLabel">Αγορά Credits</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <form id="buyCreditsForm">
+          <label for="package" class="form-label">Επιλογή πακέτου:</label>
+          <select id="package" class="form-select" required>
+            <option value="10">10 credits - 0.99€</option>
+            <option value="20">20 credits - 1.99€</option>
+            <option value="50">50 credits - 4.99€</option>
+            <option value="100">100 credits - 9.99€</option>
+            <option value="200">200 credits - 19.99€</option>
+            <option value="500">500 credits - 49.99€</option>
+            <option value="1000">1000 credits - 99.99€</option>
+            <option value="unlimited">Απεριόριστα - 199.99€</option>
+          </select>
+          <button type="submit" class="btn btn-success mt-3 w-100">Αγορά</button>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/js/bootstrap.bundle.min.js"></script>
+<script>
+document.getElementById('buyCreditsForm').onsubmit = async function(e) {
+    e.preventDefault();
+    const packageValue = document.getElementById('package').value;
+    const response = await fetch('/create-payment', {
+        method: 'POST',
+        headers: {'Content-Type': 'application/json'},
+        body: JSON.stringify({package: packageValue})
+    });
+    const data = await response.json();
+    if (data.url) {
+        window.location = data.url;
+    } else {
+        alert('Σφάλμα κατά την πληρωμή!');
+    }
+};
+</script>
+</body>
+</html>

@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/home.css') }}">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/css/bootstrap.min.css">
+    <link rel="icon" type="image/png" href="{{ url_for('static', filename='image/favicon.png') }}">
+    <title>AI Γιατρός</title>
+</head>
+<body>
+    <div class="d-flex justify-content-around">
+        <div>
+            <h1 id="header" class="navbar2">{% if language == 'el' %}AI Γιατρός{% else %}AI Doctor{% endif %}</h1>
+        </div>
+        <div>
+            <a class="navbar1" id="lg" href="/">{% if language == 'el' %}Αρχική{% else %}Home{% endif %}</a>
+        </div>
+        <div>
+            <!-- Όλα σε μια ευθεία -->
+            <div class="d-flex align-items-center gap-2">
+                {% if session.get('user_id') %}
+                <div class="text-end mt-2">
+                    {% if language == 'el' %}Διαθέσιμα credits:{% else %}Available credits:{% endif %} {{ session.get('credits', 0) }}
+                    <a href="/dashboard" class="btn btn-sm btn-outline-primary mx-2">{% if language == 'el' %}Πίνακας{% else %}Dashboard{% endif %}</a>
+                    <a href="/logout" class="btn btn-sm btn-outline-danger">{% if language == 'el' %}Αποσύνδεση{% else %}Logout{% endif %}</a>
+                </div>
+                {% else %}
+                <a href="/login" class="btn btn-outline-light">{% if language == 'el' %}Σύνδεση{% else %}Login{% endif %}</a>
+                <a href="/register" class="btn btn-primary">{% if language == 'el' %}Εγγραφή{% else %}Register{% endif %}</a>
+                {% endif %}
+                <label for="language" id="label_language" class="mb-0 ms-2">{% if language == 'el' %}Γλώσσα:{% else %}Language:{% endif %}</label>
+                <select name="language" id="language" class="form-select form-select-sm w-auto">
+                    <option value="en" {% if language == 'en' %}selected{% endif %}>English</option>
+                    <option value="el" {% if language == 'el' %}selected{% endif %}>Ελληνικά</option>
+                </select>
+            </div>
+        </div>
+    </div>    
+    
+    <h2 class="welcome animated-text" id="welcome">{% if language == 'el' %}Καλώς ήρθατε στον AI Γιατρό!{% else %}Welcome to the AI Doctor!{% endif %}</h2>
+    <p class="des animated-text" id="des">{% if language == 'el' %}Ο AI Γιατρός είναι μια σύγχρονη διαδικτυακή εφαρμογή που αξιοποιεί την τεχνητή νοημοσύνη για να παρέχει άμεσες και αξιόπιστες απαντήσεις σε ερωτήσεις υγείας, προσφέροντας υποστήριξη και ενημέρωση στους χρήστες με εύκολο και φιλικό τρόπο. Η υπηρεσία έχει σχεδιαστεί ώστε να διευκολύνει την επικοινωνία και να προσφέρει χρήσιμες πληροφορίες για θέματα υγείας, χωρίς να αντικαθιστά τον ρόλο του επαγγελματία ιατρού, αλλά να λειτουργεί ως συμπληρωματικό εργαλείο για την καλύτερη κατανόηση και διαχείριση της υγείας σας.{% else %}The AI Doctor is a modern web application that leverages artificial intelligence to provide immediate and reliable answers to health questions, offering support and information to users in an easy and friendly way. The service is designed to facilitate communication and provide useful information on health issues, without replacing the role of a professional doctor, but functioning as a complementary tool for better understanding and managing your health.{% endif %}</p>
+    <p id="current_lang" style="display:none"></p>
+    {% if session.get('user_id') %}
+    <div class="forming">
+    <form method="post">
+        <label for="question_text" id="label_question">{% if language == 'el' %}Ερώτηση Υγείας:{% else %}Health Question:{% endif %}</label>
+        <input type="text" name="question_text" id="question_text" required>
+        <button type="submit" id="submit_btn">{% if language == 'el' %}Ρώτησε{% else %}Ask{% endif %}</button>
+    </form>
+    </div>
+    {% endif %}
+    <div id="spinner" class="text-center mt-3" style="display: none; margin-left: 50%;">
+        <div class="loader" role="status">
+            <span class="visually-hidden">Loading...</span>
+        </div>
+    </div>    
+    {% if answer %}
+        <h3 id="answer_header" style="margin-left: 1%;">{% if language == 'el' %}Απάντηση AI Γιατρού:{% else %}AI Doctor Response:{% endif %}</h3>
+        <p class="ans" id="answer_text">{{ answer }}</p>
+    {% endif %}
+
+    <script>
+    const translations = {
+        el: {
+            lg: "Αρχική",
+            header: "AI Γιατρός",
+            welcome: "Καλώς ήρθατε στον AI Γιατρό!",
+            label_language: "Γλώσσα:",
+            label_question: "Ερώτηση Υγείας:",
+            submit_btn: "Ρώτησε",
+            answer_header: "Απάντηση AI Γιατρού:",
+            current_lang: "Τρέχουσα γλώσσα: Ελληνικά",
+            des: "Ο AI Γιατρός είναι μια σύγχρονη διαδικτυακή εφαρμογή που αξιοποιεί την τεχνητή νοημοσύνη για να παρέχει άμεσες και αξιόπιστες απαντήσεις σε ερωτήσεις υγείας, προσφέροντας υποστήριξη και ενημέρωση στους χρήστες με εύκολο και φιλικό τρόπο. Η υπηρεσία έχει σχεδιαστεί ώστε να διευκολύνει την επικοινωνία και να προσφέρει χρήσιμες πληροφορίες για θέματα υγείας, χωρίς να αντικαθιστά τον ρόλο του επαγγελματία ιατρού, αλλά να λειτουργεί ως συμπληρωματικό εργαλείο για την καλύτερη κατανόηση και διαχείριση της υγείας σας."
+        },
+        en: {
+            lg: "Home",
+            header: "AI Doctor",
+            welcome: "Welcome to the AI Doctor!",
+            label_language: "Language:",
+            label_question: "Health Question:",
+            submit_btn: "Ask",
+            answer_header: "AI Doctor Response:",
+            current_lang: "Current language: English",
+            des: "The AI Doctor is a modern web application that leverages artificial intelligence to provide immediate and reliable answers to health questions, offering support and information to users in an easy and friendly way. The service is designed to facilitate communication and provide useful information on health issues, without replacing the role of a professional doctor, but functioning as a complementary tool for better understanding and managing your health."
+        }
+    };
+
+    document.getElementById('language').addEventListener('change', function() {
+        var lang = this.value;
+        document.getElementById('lg').textContent = translations[lang].lg;
+        document.getElementById('header').textContent = translations[lang].header;
+        document.getElementById('welcome').textContent = translations[lang].welcome;
+        document.getElementById('label_language').textContent = translations[lang].label_language;
+        document.getElementById('label_question').textContent = translations[lang].label_question;
+        document.getElementById('submit_btn').textContent = translations[lang].submit_btn;
+        document.getElementById('current_lang').textContent = translations[lang].current_lang;
+        document.getElementById('des').textContent = translations[lang].des;
+        // Αν υπάρχει απάντηση, άλλαξε και το header της απάντησης
+        if(document.getElementById('answer_header')) {
+            document.getElementById('answer_header').textContent = translations[lang].answer_header;
+        }
+    });
+    document.querySelector("form").addEventListener("submit", function () {
+        document.getElementById("spinner").style.display = "block";
+    });
+    document.querySelector("form").addEventListener("reset", function () {
+        document.getElementById("spinner").style.display = "none";
+    });
+    </script>
+</body>
+</html>
