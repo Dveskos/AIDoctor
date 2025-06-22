@@ -4,7 +4,6 @@ __pycache__/
 *.env
 .env
 crypt.env
-requirements.txt
 
 # Flask
 instance/

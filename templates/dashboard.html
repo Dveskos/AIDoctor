@@ -122,5 +122,25 @@ document.getElementById('buyCreditsForm').onsubmit = async function(e) {
     }
 };
 </script>
+
+    <footer class="bg-dark text-light py-4 mt-5 fixed-bottom">
+    <div class="container d-flex flex-column flex-md-row justify-content-between align-items-center">
+        <div class="mb-3 mb-md-0">
+        <a href="/static/docs/terms.pdf" id="terms" download class="text-light text-decoration-none">
+            {% if language == 'el' %}Όροι Χρήσης (PDF){% else %}Terms of Use (PDF){% endif %}
+        </a>
+        </div>
+        <div>
+        <span class="me-3">Have question?</span>
+        <a href="mailto:dveskos@gmail.com?subject=AI Doctor Question" class="btn btn-outline-light btn-sm me-2">
+            Contact Us
+        </a>
+        <a href="mailto:dveskos@gmail.com?subject=Request%20Free%20Trial" class="btn btn-primary btn-sm">
+            Request a Free Trial
+        </a>
+        </div>
+    </div>
+    </footer>
+    
 </body>
 </html>

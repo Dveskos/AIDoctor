@@ -1,0 +1,11 @@
+Flask
+python-dotenv
+openai
+Flask-Mail
+bcrypt
+flask-mysqldb
+stripe
+uuid
+datetime
+os
+dotenv

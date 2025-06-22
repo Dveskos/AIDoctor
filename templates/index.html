@@ -37,9 +37,9 @@
             </div>
         </div>
     </div>    
-    
+    <br>
     <h2 class="welcome animated-text" id="welcome">{% if language == 'el' %}Καλώς ήρθατε στον AI Γιατρό!{% else %}Welcome to the AI Doctor!{% endif %}</h2>
-    <p class="des animated-text" id="des">{% if language == 'el' %}Ο AI Γιατρός είναι μια σύγχρονη διαδικτυακή εφαρμογή που αξιοποιεί την τεχνητή νοημοσύνη για να παρέχει άμεσες και αξιόπιστες απαντήσεις σε ερωτήσεις υγείας, προσφέροντας υποστήριξη και ενημέρωση στους χρήστες με εύκολο και φιλικό τρόπο. Η υπηρεσία έχει σχεδιαστεί ώστε να διευκολύνει την επικοινωνία και να προσφέρει χρήσιμες πληροφορίες για θέματα υγείας, χωρίς να αντικαθιστά τον ρόλο του επαγγελματία ιατρού, αλλά να λειτουργεί ως συμπληρωματικό εργαλείο για την καλύτερη κατανόηση και διαχείριση της υγείας σας.{% else %}The AI Doctor is a modern web application that leverages artificial intelligence to provide immediate and reliable answers to health questions, offering support and information to users in an easy and friendly way. The service is designed to facilitate communication and provide useful information on health issues, without replacing the role of a professional doctor, but functioning as a complementary tool for better understanding and managing your health.{% endif %}</p>
+    <p class="des animated-text" id="description">{% if language == 'el' %}Ο AI Γιατρός είναι μια σύγχρονη διαδικτυακή εφαρμογή που αξιοποιεί την τεχνητή νοημοσύνη για να παρέχει άμεσες και αξιόπιστες απαντήσεις σε ερωτήσεις υγείας, προσφέροντας υποστήριξη και ενημέρωση στους χρήστες με εύκολο και φιλικό τρόπο. Η υπηρεσία έχει σχεδιαστεί ώστε να διευκολύνει την επικοινωνία και να προσφέρει χρήσιμες πληροφορίες για θέματα υγείας, χωρίς να αντικαθιστά τον ρόλο του επαγγελματία ιατρού, αλλά να λειτουργεί ως συμπληρωματικό εργαλείο για την καλύτερη κατανόηση και διαχείριση της υγείας σας.{% else %}The AI Doctor is a modern web application that leverages artificial intelligence to provide immediate and reliable answers to health questions, offering support and information to users in an easy and friendly way. The service is designed to facilitate communication and provide useful information on health issues, without replacing the role of a professional doctor, but functioning as a complementary tool for better understanding and managing your health.{% endif %}</p>
     <p id="current_lang" style="display:none"></p>
     {% if session.get('user_id') %}
     <div class="forming">
@@ -64,6 +64,7 @@
     const translations = {
         el: {
             lg: "Αρχική",
+            terms: "Όροι Χρήσης (PDF)",
             header: "AI Γιατρός",
             welcome: "Καλώς ήρθατε στον AI Γιατρό!",
             label_language: "Γλώσσα:",
@@ -71,10 +72,11 @@
             submit_btn: "Ρώτησε",
             answer_header: "Απάντηση AI Γιατρού:",
             current_lang: "Τρέχουσα γλώσσα: Ελληνικά",
-            des: "Ο AI Γιατρός είναι μια σύγχρονη διαδικτυακή εφαρμογή που αξιοποιεί την τεχνητή νοημοσύνη για να παρέχει άμεσες και αξιόπιστες απαντήσεις σε ερωτήσεις υγείας, προσφέροντας υποστήριξη και ενημέρωση στους χρήστες με εύκολο και φιλικό τρόπο. Η υπηρεσία έχει σχεδιαστεί ώστε να διευκολύνει την επικοινωνία και να προσφέρει χρήσιμες πληροφορίες για θέματα υγείας, χωρίς να αντικαθιστά τον ρόλο του επαγγελματία ιατρού, αλλά να λειτουργεί ως συμπληρωματικό εργαλείο για την καλύτερη κατανόηση και διαχείριση της υγείας σας."
+            description: "Ο AI Γιατρός είναι μια σύγχρονη διαδικτυακή εφαρμογή που αξιοποιεί την τεχνητή νοημοσύνη για να παρέχει άμεσες και αξιόπιστες απαντήσεις σε ερωτήσεις υγείας, προσφέροντας υποστήριξη και ενημέρωση στους χρήστες με εύκολο και φιλικό τρόπο. Η υπηρεσία έχει σχεδιαστεί ώστε να διευκολύνει την επικοινωνία και να προσφέρει χρήσιμες πληροφορίες για θέματα υγείας, χωρίς να αντικαθιστά τον ρόλο του επαγγελματία ιατρού, αλλά να λειτουργεί ως συμπληρωματικό εργαλείο για την καλύτερη κατανόηση και διαχείριση της υγείας σας."
         },
         en: {
             lg: "Home",
+            terms: "Terms of Use (PDF)",
             header: "AI Doctor",
             welcome: "Welcome to the AI Doctor!",
             label_language: "Language:",
@@ -82,20 +84,20 @@
             submit_btn: "Ask",
             answer_header: "AI Doctor Response:",
             current_lang: "Current language: English",
-            des: "The AI Doctor is a modern web application that leverages artificial intelligence to provide immediate and reliable answers to health questions, offering support and information to users in an easy and friendly way. The service is designed to facilitate communication and provide useful information on health issues, without replacing the role of a professional doctor, but functioning as a complementary tool for better understanding and managing your health."
+            description: "The AI Doctor is a modern web application that leverages artificial intelligence to provide immediate and reliable answers to health questions, offering support and information to users in an easy and friendly way. The service is designed to facilitate communication and provide useful information on health issues, without replacing the role of a professional doctor, but functioning as a complementary tool for better understanding and managing your health."
         }
     };
-
     document.getElementById('language').addEventListener('change', function() {
         var lang = this.value;
         document.getElementById('lg').textContent = translations[lang].lg;
+        document.getElementById('terms').textContent = translations[lang].terms;
         document.getElementById('header').textContent = translations[lang].header;
         document.getElementById('welcome').textContent = translations[lang].welcome;
         document.getElementById('label_language').textContent = translations[lang].label_language;
+        document.getElementById('current_lang').textContent = translations[lang].current_lang;
+        document.getElementById('description').textContent = translations[lang].description;
         document.getElementById('label_question').textContent = translations[lang].label_question;
         document.getElementById('submit_btn').textContent = translations[lang].submit_btn;
-        document.getElementById('current_lang').textContent = translations[lang].current_lang;
-        document.getElementById('des').textContent = translations[lang].des;
         // Αν υπάρχει απάντηση, άλλαξε και το header της απάντησης
         if(document.getElementById('answer_header')) {
             document.getElementById('answer_header').textContent = translations[lang].answer_header;
@@ -108,5 +110,26 @@
         document.getElementById("spinner").style.display = "none";
     });
     </script>
+
+    <footer class="bg-dark text-light py-4 mt-5 fixed-bottom">
+    <div class="container d-flex flex-column flex-md-row justify-content-between align-items-center">
+        <div class="mb-3 mb-md-0">
+        <a href="/static/docs/terms.pdf" id="terms" download class="text-light text-decoration-none">
+            {% if language == 'el' %}Όροι Χρήσης (PDF){% else %}Terms of Use (PDF){% endif %}
+        </a>
+        </div>
+        <div>
+        <span class="me-3">Have question?</span>
+        <a href="mailto:dveskos@gmail.com?subject=AI Doctor Question" class="btn btn-outline-light btn-sm me-2">
+            Contact Us
+        </a>
+        <a href="mailto:dveskos@gmail.com?subject=Request%20Free%20Trial" class="btn btn-primary btn-sm">
+            Request a Free Trial
+        </a>
+        </div>
+    </div>
+    </footer>
+
+
 </body>
 </html>
